@@ -1,0 +1,25 @@
+[
+    {
+        "id": 1,
+        "name": "Mock User 1",
+        "username": "mockuser1",
+        "email": "mock1@example.com",
+        "address": {
+            "street": "Mock Street 1",
+            "suite": "Suite 1",
+            "city": "Mock City",
+            "zipcode": "12345",
+            "geo": {
+                "lat": "0.0",
+                "lng": "0.0"
+            }
+        },
+        "phone": "123-456-7890",
+        "website": "mock1.com",
+        "company": {
+            "name": "Mock Company 1",
+            "catchPhrase": "Mock Catch Phrase 1",
+            "bs": "Mock BS 1"
+        }
+    }
+] 
