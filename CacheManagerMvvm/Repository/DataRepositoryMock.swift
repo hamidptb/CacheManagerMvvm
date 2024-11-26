@@ -1,12 +1,18 @@
-import Foundation
+//
+//  DataRepositoryMock.swift
+//  CacheManagerMvvm
+//
+//  Created by Hamid on 11/26/24.
+//
+
 import Combine
 
-class DataRepository: DataRepositoryProtocol {
+class DataRepositoryMock: DataRepositoryProtocol {
     private let networkService: NetworkService
     private let cacheService: CacheService
     
-    init(networkService: NetworkService = NetworkManager(),
-         cacheService: CacheService = CacheManager()) {
+    init(networkService: NetworkService = NetworkManagerMock(),
+         cacheService: CacheService = CacheManagerMock()) {
         self.networkService = networkService
         self.cacheService = cacheService
     }
@@ -23,7 +29,7 @@ class DataRepository: DataRepositoryProtocol {
             .eraseToAnyPublisher()
     }
     
-    private func fetch<T: Codable>(endpoint: APIEndpoint, 
+    private func fetch<T: Codable>(endpoint: APIEndpoint,
                                   forceCache: Bool? = nil,
                                   forceUpdate: Bool? = nil) -> AnyPublisher<T, Error> {
         // Force update: Skip cache and fetch from network
@@ -65,3 +71,20 @@ class DataRepository: DataRepositoryProtocol {
         fetch(endpoint: .users, forceCache: forceCache, forceUpdate: forceUpdate)
     }
 }
+
+/*
+ // In a view model or repository test
+ let mockCache = CacheManagerMock()
+ mockCache.preloadData()
+ let repository = DataRepository(networkService: NetworkManagerMock(), cacheService: mockCache)
+
+ // Or in a preview
+ struct ProductsView_Previews: PreviewProvider {
+     static var previews: some View {
+         let mockCache = CacheManagerMock()
+         mockCache.preloadData()
+         let repository = DataRepository(networkService: NetworkManagerMock(), cacheService: mockCache)
+         return ProductsView(viewModel: ProductsViewModel(repository: repository))
+     }
+ }
+ */

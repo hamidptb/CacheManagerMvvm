@@ -58,7 +58,7 @@ class NetworkManager: NetworkService {
                         return APIError.failedRequest
                     }
                 }
-                .receive(on: DispatchQueue.main) // Handle results on the main thread
+//                .receive(on: DispatchQueue.main) // Handle results on the main thread
                 .eraseToAnyPublisher()
         } catch {
             // Handle errors in creating the URLRequest

@@ -25,7 +25,7 @@ struct ContentView: View {
             }
             
             NavigationView {
-                UsersView()
+                UsersView(viewModel: UsersViewModel(repository: DataRepository()))
             }
             .tabItem {
                 Label("Users", systemImage: "person.2")

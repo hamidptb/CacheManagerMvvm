@@ -20,6 +20,7 @@ class NetworkManagerMock: NetworkService {
     
     private func publisher<T: Decodable>(for resource: String) -> AnyPublisher<T, APIError> {
         Just(stubData(for: resource))
+            .delay(for: .seconds(2), scheduler: DispatchQueue.main)
             .setFailureType(to: APIError.self)
             .eraseToAnyPublisher()
     }

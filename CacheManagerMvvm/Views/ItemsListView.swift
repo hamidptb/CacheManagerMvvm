@@ -9,6 +9,9 @@ struct ItemsListView: View {
                 ProgressView()
             } else if let error = viewModel.error {
 //                ErrorView(message: error, retryAction: viewModel.fetchItems)
+                ErrorView(message: error) {
+                    viewModel.fetchItems()
+                }
             } else {
                 List(viewModel.items) { item in
                     ItemRow(item: item)

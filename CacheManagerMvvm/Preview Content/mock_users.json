@@ -21,5 +21,51 @@
             "catchPhrase": "Mock Catch Phrase 1",
             "bs": "Mock BS 1"
         }
+    },
+    {
+        "id": 2,
+        "name": "Mock User 2",
+        "username": "mockuser2",
+        "email": "mock2@example.com",
+        "address": {
+            "street": "Mock Street 2",
+            "suite": "Suite 2",
+            "city": "Another Mock City",
+            "zipcode": "67890",
+            "geo": {
+                "lat": "10.0",
+                "lng": "20.0"
+            }
+        },
+        "phone": "987-654-3210",
+        "website": "mock2.com",
+        "company": {
+            "name": "Mock Company 2",
+            "catchPhrase": "Mock Catch Phrase 2",
+            "bs": "Mock BS 2"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Mock User 3",
+        "username": "mockuser3",
+        "email": "mock3@example.com",
+        "address": {
+            "street": "Mock Street 3",
+            "suite": "Suite 3",
+            "city": "Third Mock City",
+            "zipcode": "11111",
+            "geo": {
+                "lat": "-10.0",
+                "lng": "-20.0"
+            }
+        },
+        "phone": "555-555-5555",
+        "website": "mock3.com",
+        "company": {
+            "name": "Mock Company 3",
+            "catchPhrase": "Mock Catch Phrase 3",
+            "bs": "Mock BS 3"
+        }
     }
-] 
+]
