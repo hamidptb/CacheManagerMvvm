@@ -47,10 +47,6 @@ class CacheManagerMock: CacheService {
     /// Preload mock data into the cache
     func preloadData() {
         // Example mock data
-        let mockItems = [
-            Item(id: 1, title: "Mock Item 1", description: "Description 1"),
-            Item(id: 2, title: "Mock Item 2", description: "Description 2")
-        ]
         
         let mockProducts = ProductResponse(
             products: [
@@ -91,7 +87,6 @@ class CacheManagerMock: CacheService {
         ]
         
         // Save mock data with appropriate cache keys
-        save(mockItems, forKey: CacheConfig.shared.cacheKey(for: .items), expiration: .minutes(30))
         save(mockProducts, forKey: CacheConfig.shared.cacheKey(for: .products), expiration: .hours(1))
         save(mockUsers, forKey: CacheConfig.shared.cacheKey(for: .users), expiration: .days(1))
     }

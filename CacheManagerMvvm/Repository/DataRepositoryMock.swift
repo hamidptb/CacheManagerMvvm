@@ -59,10 +59,6 @@ class DataRepositoryMock: DataRepositoryProtocol {
         return fetchFromNetwork(endpoint: endpoint)
     }
     
-    func getItems(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<[Item], Error> {
-        fetch(endpoint: .items, forceCache: forceCache, forceUpdate: forceUpdate)
-    }
-    
     func getProducts(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<ProductResponse, Error> {
         fetch(endpoint: .products, forceCache: forceCache, forceUpdate: forceUpdate)
     }

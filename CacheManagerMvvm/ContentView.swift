@@ -11,13 +11,6 @@ struct ContentView: View {
     var body: some View {
         TabView {
             NavigationView {
-                ItemsListView()
-            }
-            .tabItem {
-                Label("Items", systemImage: "list.bullet")
-            }
-            
-            NavigationView {
                 ProductsView(viewModel: ProductsViewModel(repository: DataRepository()))
             }
             .tabItem {
