@@ -9,8 +9,12 @@ import Foundation
 
 enum Environment {
 
-    static var apiBaseURL: URL {
+    static var apiBaseURLJsonplaceholder: URL {
         URL(string: "https://jsonplaceholder.typicode.com")!
+    }
+    
+    static var apiBaseURLDummyjson: URL {
+        URL(string: "https://dummyjson.com")!
     }
     
     static var defaultMaxResult: Int {

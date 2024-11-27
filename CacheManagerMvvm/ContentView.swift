@@ -18,7 +18,7 @@ struct ContentView: View {
             }
             
             NavigationView {
-                ProductsView()
+                ProductsView(viewModel: ProductsViewModel(repository: DataRepository()))
             }
             .tabItem {
                 Label("Products", systemImage: "cart")

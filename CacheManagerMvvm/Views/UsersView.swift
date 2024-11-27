@@ -3,12 +3,15 @@ import SwiftUI
 struct UsersView: View {
     @ObservedObject var viewModel: UsersViewModel
     
-    @State private var showingAlert = false
-    
     var body: some View {
         Group {
             if viewModel.isLoading {
                 ProgressView()
+            } else if let error = viewModel.errorMessage {
+                ErrorView(message: error) {
+                    viewModel.errorMessage = nil
+                    viewModel.fetchUsers()
+                }
             } else {
                 List(viewModel.users) { user in
                     UserRow(user: user)
@@ -16,13 +19,6 @@ struct UsersView: View {
             }
         }
         .navigationTitle("Users")
-        .alert("Something went wrong", isPresented: $showingAlert) {
-            Button("Retry", role: .none) {
-                viewModel.fetchUsers()
-            }
-            Button("OK", role: .cancel) {
-            }
-        }
         .onAppear {
             viewModel.fetchUsers()
         }

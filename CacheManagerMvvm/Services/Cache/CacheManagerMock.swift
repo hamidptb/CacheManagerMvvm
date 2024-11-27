@@ -52,10 +52,26 @@ class CacheManagerMock: CacheService {
             Item(id: 2, title: "Mock Item 2", description: "Description 2")
         ]
         
-        let mockProducts = [
-            Product(id: 1, name: "Mock Product 1", price: 99.99, description: "Product Description 1"),
-            Product(id: 2, name: "Mock Product 2", price: 149.99, description: "Product Description 2")
-        ]
+        let mockProducts = ProductResponse(
+            products: [
+                Product(
+                    id: 1,
+                    title: "Wireless Earbuds",
+                    description: "High-quality wireless earbuds with noise cancellation.",
+                    category: "Electronics",
+                    price: 99.99
+                ),
+                Product(
+                    id: 2,
+                    title: "Smartphone",
+                    description: "Latest model smartphone with advanced features.",
+                    category: "Electronics",
+                    price: 699.99
+                )            ],
+            total: 2,
+            skip: 0,
+            limit: 2
+        )
         
         let mockUsers = [
             User(id: 1, 

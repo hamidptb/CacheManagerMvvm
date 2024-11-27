@@ -1,14 +1,17 @@
 import SwiftUI
 
 struct ProductsView: View {
-    @StateObject private var viewModel = ProductsViewModel()
+    @ObservedObject var viewModel: ProductsViewModel
     
     var body: some View {
         Group {
             if viewModel.isLoading {
                 ProgressView()
-            } else if let error = viewModel.error {
-//                ErrorView(message: error, retryAction: viewModel.fetchProducts)
+            } else if let error = viewModel.errorMessage {
+                ErrorView(message: error) {
+                    viewModel.errorMessage = nil
+                    viewModel.fetchProducts()
+                }
             } else {
                 List(viewModel.products) { product in
                     ProductRow(product: product)
@@ -27,7 +30,7 @@ struct ProductRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(product.name)
+            Text(product.title)
                 .font(.headline)
             Text(product.description)
                 .font(.subheadline)
@@ -38,3 +41,18 @@ struct ProductRow: View {
         }
     }
 } 
+
+struct ProductsView_Previews: PreviewProvider {
+    static var previews: some View {
+        // Example of using a mock cache to preload data for testing:
+        // Uncomment the following lines if you want to simulate mock cached data.
+        // let mockCache = CacheManagerMock()
+        // mockCache.preloadData()
+        // let repository = DataRepository(networkService: NetworkManagerMock(), cacheService: mockCache)
+        // return UsersView(viewModel: UsersViewModel(repository: repository))
+        
+        // Using a mock repository for a simpler preview setup: (that reads data from mock JSON files in real-time)
+        return ProductsView(viewModel: ProductsViewModel(repository: DataRepositoryMock()))
+    }
+}
+

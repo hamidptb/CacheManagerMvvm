@@ -1,14 +1,42 @@
-[
+{
+  "products": [
     {
-        "id": 1,
-        "name": "Mock Product 1",
-        "price": 99.99,
-        "description": "Description for mock product 1"
+      "id": 1,
+      "title": "Wireless Earbuds",
+      "description": "High-quality wireless earbuds with noise cancellation.",
+      "category": "Electronics",
+      "price": 99.99
     },
     {
-        "id": 2,
-        "name": "Mock Product 2",
-        "price": 149.99,
-        "description": "Description for mock product 2"
+      "id": 2,
+      "title": "Smartphone",
+      "description": "Latest model smartphone with advanced features.",
+      "category": "Electronics",
+      "price": 699.99
+    },
+    {
+      "id": 3,
+      "title": "Gaming Chair",
+      "description": "Ergonomic gaming chair with lumbar support.",
+      "category": "Furniture",
+      "price": 159.99
+    },
+    {
+      "id": 4,
+      "title": "Mountain Bike",
+      "description": "Durable mountain bike suitable for off-road trails.",
+      "category": "Sports",
+      "price": 499.99
+    },
+    {
+      "id": 5,
+      "title": "Coffee Maker",
+      "description": "Automatic coffee maker with programmable timer.",
+      "category": "Appliances",
+      "price": 79.99
     }
-] 
+  ],
+  "total": 5,
+  "skip": 0,
+  "limit": 5
+}

@@ -16,7 +16,16 @@ enum APIEndpoint {
     }
     
     private var url: URL {
-        var components = URLComponents(url: Environment.apiBaseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
+        let baseURL: URL
+
+        switch self {
+        case .items, .users:
+            baseURL = Environment.apiBaseURLJsonplaceholder
+        case .products:
+            baseURL = Environment.apiBaseURLDummyjson
+        }
+
+        var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
         components.queryItems = params
         return components.url!
     }

@@ -9,7 +9,7 @@ class UsersViewModel: ObservableObject {
     
     @Published private(set) var isLoading = false
     
-    @Published private(set) var errorMessage: String?
+    @Published var errorMessage: String?
     
     // MARK: - Dependencies
     
@@ -37,9 +37,9 @@ class UsersViewModel: ObservableObject {
                 
                 switch completion {
                 case .finished:
-                    print("Successfully Fetched Books")
+                    print("Successfully Fetched Users")
                 case .failure(let error):
-                    print("Unable to Fetch Books \(error)")
+                    print("Unable to Fetch Users: \(error)")
                     
                     self?.errorMessage = error.localizedDescription
                 }
