@@ -21,7 +21,7 @@ enum AppError: LocalizedError {
         case .network(let apiError):
             return apiError.recoverySuggestion
         case .cache(let cacheError):
-            return "Try refreshing the data"
+            return cacheError.recoverySuggestion
         case .unknown:
             return "Please try again later"
         }

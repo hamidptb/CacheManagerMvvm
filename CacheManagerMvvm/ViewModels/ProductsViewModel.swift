@@ -44,7 +44,7 @@ class ProductsViewModel: ObservableObject {
                     print("Successfully Fetched Products")
                 case .failure(let error):
                     print("Unable to Fetch Products: \(error)")
-                    self?.error = error as? AppError ?? .unknown(error)
+                    self?.error = error
                     self?.errorMessage = error.localizedDescription
                 }
             }, receiveValue: { [weak self] value in

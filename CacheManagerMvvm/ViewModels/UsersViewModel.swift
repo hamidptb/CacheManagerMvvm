@@ -41,7 +41,7 @@ class UsersViewModel: ObservableObject {
                     print("Successfully Fetched Users")
                 case .failure(let error):
                     print("Unable to Fetch Users: \(error)")
-                    self?.error = error as? AppError ?? .unknown(error)
+                    self?.error = error
                 }
             }, receiveValue: { [weak self] value in
                 self?.users = value
