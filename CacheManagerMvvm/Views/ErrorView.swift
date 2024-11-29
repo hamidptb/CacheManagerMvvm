@@ -1,15 +1,22 @@
 import SwiftUI
 
 struct ErrorView: View {
-    let message: String
+    let error: AppError
     let retryAction: () -> Void
     
     var body: some View {
         VStack(spacing: 16) {
-            Text(message)
+            Text(error.errorDescription ?? "An error occurred")
                 .foregroundColor(.red)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+            
+            if let recoverySuggestion = error.recoverySuggestion {
+                Text(recoverySuggestion)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
             
             Button(action: retryAction) {
                 Text("Retry")

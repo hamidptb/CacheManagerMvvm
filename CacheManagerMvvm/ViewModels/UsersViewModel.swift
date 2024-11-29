@@ -9,7 +9,7 @@ class UsersViewModel: ObservableObject {
     
     @Published private(set) var isLoading = false
     
-    @Published var errorMessage: String?
+    @Published var error: AppError?
     
     // MARK: - Dependencies
     
@@ -29,6 +29,7 @@ class UsersViewModel: ObservableObject {
     
     func fetchUsers(forceCache: Bool? = nil, forceUpdate: Bool? = nil) {
         isLoading = true
+        error = nil
         
         repository.getUsers(forceCache: forceCache, forceUpdate: forceUpdate)
             .receive(on: DispatchQueue.main)
@@ -40,13 +41,10 @@ class UsersViewModel: ObservableObject {
                     print("Successfully Fetched Users")
                 case .failure(let error):
                     print("Unable to Fetch Users: \(error)")
-                    
-                    self?.errorMessage = error.localizedDescription
+                    self?.error = error as? AppError ?? .unknown(error)
                 }
             }, receiveValue: { [weak self] value in
-                guard let self = self else { return }
-                
-                self.users = value
+                self?.users = value
             }).store(in: &cancellables)
     }
 }

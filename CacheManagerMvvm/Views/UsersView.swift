@@ -7,9 +7,9 @@ struct UsersView: View {
         Group {
             if viewModel.isLoading {
                 ProgressView()
-            } else if let error = viewModel.errorMessage {
-                ErrorView(message: error) {
-                    viewModel.errorMessage = nil
+            } else if let error = viewModel.error {
+                ErrorView(error: error) {
+                    viewModel.error = nil
                     viewModel.fetchUsers()
                 }
             } else {

@@ -12,16 +12,16 @@ class NetworkManagerMock: NetworkService {
     
     // MARK: - NetworkService Protocol
     
-    func fetchData<T: Decodable>(from endpoint: APIEndpoint) -> AnyPublisher<T, APIError> {
+    func fetchData<T: Decodable>(from endpoint: APIEndpoint) -> AnyPublisher<T, AppError> {
         publisher(for: mockFileName(for: endpoint))
     }
     
     // MARK: - Private Methods
     
-    private func publisher<T: Decodable>(for resource: String) -> AnyPublisher<T, APIError> {
+    private func publisher<T: Decodable>(for resource: String) -> AnyPublisher<T, AppError> {
         Just(stubData(for: resource))
             .delay(for: .seconds(2), scheduler: DispatchQueue.main)
-            .setFailureType(to: APIError.self)
+            .setFailureType(to: AppError.self)
             .eraseToAnyPublisher()
     }
     

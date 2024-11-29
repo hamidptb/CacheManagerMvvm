@@ -11,7 +11,7 @@ class DataRepository: DataRepositoryProtocol {
         self.cacheService = cacheService
     }
     
-    private func fetchFromNetwork<T: Codable>(endpoint: APIEndpoint) -> AnyPublisher<T, Error> {
+    private func fetchFromNetwork<T: Codable>(endpoint: APIEndpoint) -> AnyPublisher<T, AppError> {
         networkService.fetchData(from: endpoint)
             .map { (data: T) -> T in
                 self.cacheService.save(data,
@@ -19,13 +19,13 @@ class DataRepository: DataRepositoryProtocol {
                                      expiration: CacheConfig.shared.cacheExpiration(for: endpoint))
                 return data
             }
-            .mapError { $0 as Error }
+//            .mapError { AppError.network($0) }
             .eraseToAnyPublisher()
     }
     
     private func fetch<T: Codable>(endpoint: APIEndpoint, 
                                   forceCache: Bool? = nil,
-                                  forceUpdate: Bool? = nil) -> AnyPublisher<T, Error> {
+                                  forceUpdate: Bool? = nil) -> AnyPublisher<T, AppError> {
         // Force update: Skip cache and fetch from network
         if forceUpdate == true {
             return fetchFromNetwork(endpoint: endpoint)
@@ -35,10 +35,10 @@ class DataRepository: DataRepositoryProtocol {
         if forceCache == true {
             if let cachedData: T = cacheService.get(forKey: CacheConfig.shared.cacheKey(for: endpoint)) {
                 return Just(cachedData)
-                    .setFailureType(to: Error.self)
+                    .setFailureType(to: AppError.self)
                     .eraseToAnyPublisher()
             } else {
-                return Fail(error: CacheError.notFound)
+                return Fail(error: AppError.cache(.notFound))
                     .eraseToAnyPublisher()
             }
         }
@@ -46,18 +46,18 @@ class DataRepository: DataRepositoryProtocol {
         // Normal flow: Try cache first, then network
         if let cachedData: T = cacheService.get(forKey: CacheConfig.shared.cacheKey(for: endpoint)) {
             return Just(cachedData)
-                .setFailureType(to: Error.self)
+                .setFailureType(to: AppError.self)
                 .eraseToAnyPublisher()
         }
         
         return fetchFromNetwork(endpoint: endpoint)
     }
     
-    func getProducts(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<ProductResponse, Error> {
+    func getProducts(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<ProductResponse, AppError> {
         fetch(endpoint: .products, forceCache: forceCache, forceUpdate: forceUpdate)
     }
     
-    func getUsers(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<[User], Error> {
+    func getUsers(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<[User], AppError> {
         fetch(endpoint: .users, forceCache: forceCache, forceUpdate: forceUpdate)
     }
 }

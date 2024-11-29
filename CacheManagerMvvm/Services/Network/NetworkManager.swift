@@ -3,7 +3,7 @@ import Combine
 
 class NetworkManager: NetworkService {
     
-    func fetchData<T: Decodable>(from endpoint: APIEndpoint) -> AnyPublisher<T, APIError> {
+    func fetchData<T: Decodable>(from endpoint: APIEndpoint) -> AnyPublisher<T, AppError> {
         do {
             // Generate the URLRequest from the endpoint
             let request = try endpoint.request()
@@ -47,25 +47,25 @@ class NetworkManager: NetworkService {
                         throw APIError.invalidResponse
                     }
                 }
-                .mapError { error -> APIError in
+                .mapError { error -> AppError in
                     // Map to custom APIError
+                    if let apiError = error as? APIError {
+                        return .network(apiError)
+                    }
                     switch error {
-                    case let apiError as APIError:
-                        return apiError
                     case URLError.notConnectedToInternet:
-                        return APIError.unreachable
+                        return .network(.unreachable)
                     default:
-                        return APIError.failedRequest
+                        return .unknown(error)
                     }
                 }
-//                .receive(on: DispatchQueue.main) // Handle results on the main thread
                 .eraseToAnyPublisher()
         } catch {
             // Handle errors in creating the URLRequest
             if let apiError = error as? APIError {
-                return Fail(error: apiError).eraseToAnyPublisher()
+                return Fail(error: .network(apiError)).eraseToAnyPublisher()
             } else {
-                return Fail(error: APIError.unknown).eraseToAnyPublisher()
+                return Fail(error: .unknown(error)).eraseToAnyPublisher()
             }
         }
     }

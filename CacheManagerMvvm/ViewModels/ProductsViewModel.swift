@@ -11,6 +11,8 @@ class ProductsViewModel: ObservableObject {
     
     @Published var errorMessage: String?
     
+    @Published var error: AppError?
+    
     // MARK: - Dependencies
     
     private let repository: DataRepositoryProtocol
@@ -29,6 +31,8 @@ class ProductsViewModel: ObservableObject {
     
     func fetchProducts(forceCache: Bool? = nil, forceUpdate: Bool? = nil) {
         isLoading = true
+        errorMessage = nil
+        error = nil
         
         repository.getProducts(forceCache: forceCache, forceUpdate: forceUpdate)
             .receive(on: DispatchQueue.main)
@@ -40,13 +44,11 @@ class ProductsViewModel: ObservableObject {
                     print("Successfully Fetched Products")
                 case .failure(let error):
                     print("Unable to Fetch Products: \(error)")
-                    
+                    self?.error = error as? AppError ?? .unknown(error)
                     self?.errorMessage = error.localizedDescription
                 }
             }, receiveValue: { [weak self] value in
-                guard let self = self else { return }
-                
-                self.products = value.products
+                self?.products = value.products
             }).store(in: &cancellables)
     }
 }

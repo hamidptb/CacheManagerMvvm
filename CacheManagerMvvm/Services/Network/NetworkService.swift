@@ -9,6 +9,6 @@ import Combine
 
 protocol NetworkService {
     
-    func fetchData<T: Decodable>(from endpoint: APIEndpoint) -> AnyPublisher<T, APIError>
+    func fetchData<T: Decodable>(from endpoint: APIEndpoint) -> AnyPublisher<T, AppError>
     
 }

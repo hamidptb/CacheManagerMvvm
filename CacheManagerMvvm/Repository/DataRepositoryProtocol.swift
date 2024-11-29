@@ -8,6 +8,6 @@
 import Combine
 
 protocol DataRepositoryProtocol {
-    func getProducts(forceCache: Bool?, forceUpdate: Bool?) -> AnyPublisher<ProductResponse, Error>
-    func getUsers(forceCache: Bool?, forceUpdate: Bool?) -> AnyPublisher<[User], Error>
+    func getProducts(forceCache: Bool?, forceUpdate: Bool?) -> AnyPublisher<ProductResponse, AppError>
+    func getUsers(forceCache: Bool?, forceUpdate: Bool?) -> AnyPublisher<[User], AppError>
 }
