@@ -20,7 +20,7 @@ struct UsersView: View {
         }
         .navigationTitle("Users")
         .onAppear {
-            viewModel.fetchUsers()
+            viewModel.fetchUsers(forceCache: true)
         }
     }
 }

@@ -19,7 +19,6 @@ class DataRepository: DataRepositoryProtocol {
                                      expiration: CacheConfig.shared.cacheExpiration(for: endpoint))
                 return data
             }
-//            .mapError { AppError.network($0) }
             .eraseToAnyPublisher()
     }
     

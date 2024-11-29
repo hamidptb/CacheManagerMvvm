@@ -25,7 +25,6 @@ class DataRepositoryMock: DataRepositoryProtocol {
                                      expiration: CacheConfig.shared.cacheExpiration(for: endpoint))
                 return data
             }
-//            .mapError { $0 }
             .eraseToAnyPublisher()
     }
     

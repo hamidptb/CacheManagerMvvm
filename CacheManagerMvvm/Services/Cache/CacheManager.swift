@@ -44,30 +44,45 @@ class CacheManager: CacheService {
     
     func save<T: Codable>(_ object: T, forKey key: String, expiration: CacheExpiration = .never) {
         do {
+            guard !key.isEmpty else { throw CacheError.invalidKey }
+            
             let cachedObject = CachedObject(object: object, 
                                           timestamp: Date(),
                                           expirationMinutes: expiration.minutes)
             let data = try JSONEncoder().encode(cachedObject)
+            
+            // Check if we're about to exceed capacity
+            if memoryCache.totalCostLimit < data.count {
+                throw CacheError.capacityExceeded
+            }
             
             // Save to memory cache
             let wrapper = CacheWrapper(data: data, 
                                      timestamp: Date(),
                                      expirationMinutes: expiration.minutes)
             memoryCache.setObject(wrapper, forKey: key as NSString)
-            memoryCacheKeys.insert(key) // Track the key
+            memoryCacheKeys.insert(key)
             
             // Save to persistent storage
             storage.set(data, forKey: key)
+        } catch let error as CacheError {
+            print("Cache error: \(error.localizedDescription)")
         } catch {
             print("Error saving to cache: \(error)")
         }
     }
     
     func get<T: Codable>(forKey key: String) -> T? {
+        guard !key.isEmpty else {
+            print("Cache error: \(CacheError.invalidKey.localizedDescription)")
+            return nil
+        }
+        
         // First try memory cache
         if let wrapper = memoryCache.object(forKey: key as NSString) {
             if wrapper.isExpired {
                 removeObject(forKey: key)
+                print("Cache error: \(CacheError.expirationError.localizedDescription)")
                 return nil
             }
             
@@ -75,18 +90,24 @@ class CacheManager: CacheService {
                 let cachedObject = try JSONDecoder().decode(CachedObject<T>.self, from: wrapper.data)
                 return cachedObject.object
             } catch {
-                print("Error decoding from memory cache: \(error)")
+                print("Cache error: \(CacheError.serializationFailed.localizedDescription)")
+                return nil
             }
         }
         
         // If not in memory, try persistent storage
-        guard let data = storage.data(forKey: key) else { return nil }
+        guard let data = storage.data(forKey: key) else {
+            print("Cache error: \(CacheError.notFound.localizedDescription)")
+            return nil
+        }
+        
         do {
             let cachedObject = try JSONDecoder().decode(CachedObject<T>.self, from: data)
             
             // Check if cached object is expired
             if cachedObject.isExpired {
                 removeObject(forKey: key)
+                print("Cache error: \(CacheError.expirationError.localizedDescription)")
                 return nil
             }
             
@@ -98,7 +119,7 @@ class CacheManager: CacheService {
             
             return cachedObject.object
         } catch {
-            print("Error retrieving from persistent cache: \(error)")
+            print("Cache error: \(CacheError.serializationFailed.localizedDescription)")
             return nil
         }
     }
