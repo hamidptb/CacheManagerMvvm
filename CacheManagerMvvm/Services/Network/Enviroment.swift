@@ -20,4 +20,8 @@ enum Environment {
     static var defaultMaxResult: Int {
         10
     }
+    
+    static var apiBaseURLGoogleBooks: URL {
+        URL(string: "https://www.googleapis.com")!
+    }
 }

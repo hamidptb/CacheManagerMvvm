@@ -23,6 +23,13 @@ struct ContentView: View {
             .tabItem {
                 Label("Users", systemImage: "person.2")
             }
+            
+            NavigationView {
+                BooksView(viewModel: BooksViewModel(repository: DataRepository()))
+            }
+            .tabItem {
+                Label("Books", systemImage: "book")
+            }
         }
     }
 }

@@ -45,6 +45,8 @@ class NetworkManagerMock: NetworkService {
             return "mock_products"
         case .users:
             return "mock_users"
+        case .books:
+            return "mock_books"
         }
     }
 }

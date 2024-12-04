@@ -59,4 +59,8 @@ class DataRepository: DataRepositoryProtocol {
     func getUsers(forceCache: Bool? = nil, forceUpdate: Bool? = nil) -> AnyPublisher<[User], AppError> {
         fetch(endpoint: .users, forceCache: forceCache, forceUpdate: forceUpdate)
     }
+    
+    func getBooks(query: String, startIndex: Int, maxResults: Int, forceCache: Bool?, forceUpdate: Bool?) -> AnyPublisher<BookResponse, AppError> {
+        fetch(endpoint: .books(query: query, startIndex: startIndex, maxResults: maxResults), forceCache: forceCache, forceUpdate: forceUpdate)
+    }
 }

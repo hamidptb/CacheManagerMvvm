@@ -1,0 +1,28 @@
+{
+    "kind": "books#volumes",
+    "totalItems": 2,
+    "items": [
+        {
+            "id": "1",
+            "volumeInfo": {
+                "title": "Mock Book 1",
+                "authors": ["Author 1", "Author 2"],
+                "description": "This is a mock book description for testing purposes.",
+                "imageLinks": {
+                    "thumbnail": "https://via.placeholder.com/128x192"
+                }
+            }
+        },
+        {
+            "id": "2",
+            "volumeInfo": {
+                "title": "Mock Book 2",
+                "authors": ["Author 3"],
+                "description": "Another mock book description for testing.",
+                "imageLinks": {
+                    "thumbnail": "https://via.placeholder.com/128x192"
+                }
+            }
+        }
+    ]
+} 
