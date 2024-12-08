@@ -3,7 +3,7 @@ import Combine
 
 class DataRepository: DataRepositoryProtocol {
     private let networkService: NetworkService
-    private let cacheService: CacheService
+    let cacheService: CacheService
     
     init(networkService: NetworkService = NetworkManager(),
          cacheService: CacheService = CacheManager()) {

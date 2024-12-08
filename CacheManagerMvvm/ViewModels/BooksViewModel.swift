@@ -26,6 +26,26 @@ class BooksViewModel: ObservableObject {
     
     // MARK: - Helper Methods
     
+    private func clearBooksCache() {
+        // Clear all cached book pages
+        let cacheService = (repository as? DataRepository)?.cacheService
+        
+        // Get all cache keys and remove those related to books
+        if let cacheManager = cacheService as? CacheManager {
+            let allKeys = UserDefaults.standard.dictionaryRepresentation().keys
+            let booksCacheKeys = allKeys.filter { $0.starts(with: "cached_books_") }
+            booksCacheKeys.forEach { cacheManager.removeObject(forKey: $0) }
+        }
+    }
+    
+    func refresh() {
+        clearBooksCache() // Clear all cached book pages
+        currentPage = 0
+        hasMorePages = true
+        books.removeAll()
+        fetchBooks(forceUpdate: true) // Force fetch from network
+    }
+    
     func fetchBooks(forceCache: Bool? = nil, forceUpdate: Bool? = nil) {
         guard !isLoading && hasMorePages else { return }
         
@@ -56,12 +76,5 @@ class BooksViewModel: ObservableObject {
                 self.hasMorePages = (self.books.count) < value.totalItems
             })
             .store(in: &cancellables)
-    }
-    
-    func refresh() {
-        currentPage = 0
-        hasMorePages = true
-        books.removeAll()
-        fetchBooks()
     }
 } 
